@@ -1,0 +1,11 @@
+{
+  "name": "libsodium",
+  "version": "1.0",
+  "build": {
+    "flags": "-I include -I include/sodium"
+  },
+  "dependencies": { 
+    "name": "fakeposix",
+    "version": "1.0"
+  }
+}
