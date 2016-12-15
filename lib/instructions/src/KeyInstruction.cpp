@@ -1,7 +1,6 @@
 #include "KeyInstruction.h"
 #include "Instructions.h"
 #include <stdint.h>
-#include "Keyboard.h"
 
 KeyInstruction::KeyInstruction(uint8_t keycode) {
   this->keycode = keycode;
@@ -26,7 +25,7 @@ uint32_t KeyInstruction::deserialize(uint8_t *buf, uint32_t bufsize) {
   return 2;
 }
 
-void execute() {
+void KeyInstruction::execute() {
   Keyboard.press(this->keycode);
   Keyboard.releaseAll();
 }

@@ -1,6 +1,7 @@
 #include <Arduino.h>
 #include <RH_ASK.h>
 #include "KeyInstruction.h"
+#include "Instructions.h"
 
 #define txpin 5  //RF Transmitter pin = digital pin 4
 #define txled 1        //Onboard LED = digital pin 13
