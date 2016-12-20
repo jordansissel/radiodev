@@ -10,17 +10,17 @@ void setup() {
   Serial.begin(9600); // Debugging only
   //if (!driver.init())
   Serial.println("Setup complete.");
-  //y();
 }
 
 void loop() {
-  delay(1000);
   Serial.println("Hi.");
   //uint8_t buf[RH_ASK_MAX_MESSAGE_LEN];
   //uint8_t buflen = sizeof(buf);
   //if (driver.recv(buf, &buflen)) {
     //driver.printBuffer("Got:", buf, buflen);
   //}
+  y();
+  delay(2000);
 }
 
 #define MESSAGE (const unsigned char *) "hello world. everything is on fire."
