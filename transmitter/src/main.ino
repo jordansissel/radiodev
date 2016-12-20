@@ -29,20 +29,12 @@ void setup(){
   Serial.print("RNG setup: ");
   Serial.println(rc);
 
-  Serial.println("1");
-  //KeyInstruction k(0x65);
-  Serial.println("2");
   uint32_t count;
-  Serial.println("3");
   uint8_t buf[10];
-  Serial.println("4");
   //count = k.serialize(buf, 10);
-  Serial.println("5");
   driver.send(buf, count);
-  Serial.println("6");
   driver.waitPacketSent();
-  Serial.println("7");
-  Serial.println("Sent.");
+
   x();
 }
 
