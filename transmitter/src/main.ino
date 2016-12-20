@@ -38,6 +38,7 @@ void setup(){
   unsigned long start;
 
   x();
+  y();
 }
 
 void loop(){
