@@ -7,6 +7,7 @@
 //RH_ASK driver(2000, rxpin, 1, 2);
 
 static struct randombytes_implementation rng;
+typedef void (*Block)(void);
 
 void setup() {
   Serial.begin(9600); // Debugging only
@@ -35,11 +36,12 @@ void loop() {
   delay(1000);
 }
 
+
 #define MESSAGE (const unsigned char *) "hello world"
 #define MESSAGE_LEN 11
 #define CIPHERTEXT_LEN (crypto_secretbox_MACBYTES + MESSAGE_LEN)
 void y() {
-  unsigned long start;
+  unsigned long clock;
 
   unsigned char nonce[crypto_secretbox_NONCEBYTES];
   unsigned char key[crypto_secretbox_KEYBYTES];
@@ -48,18 +50,16 @@ void y() {
   randombytes_buf(nonce, sizeof nonce);
   randombytes_buf(key, sizeof key);
 
-  start = micros();
+  clock = micros();
   crypto_secretbox_easy(ciphertext, MESSAGE, MESSAGE_LEN, nonce, key);
-  Serial.print("crypto_secretbox_easy Duration: ");
-  Serial.print(micros() - start);
-  Serial.println("us");
+  clock = micros() - clock;
+  Serial.print("crypto_secretbox_easy: "); Serial.print(clock);
 
   unsigned char decrypted[MESSAGE_LEN];
-  start = micros();
+  clock = micros();
   if (crypto_secretbox_open_easy(decrypted, ciphertext, CIPHERTEXT_LEN, nonce, key) != 0) {
     Serial.println("crypto_secretbox_open_easy FORGED OR CORRUPT");
   }
-  Serial.print("crypto_secretbox_open_easy Duration: ");
-  Serial.print(micros() - start);
-  Serial.println("us");
+  clock = micros() - clock;
+  Serial.print("crypto_secretbox_easy: "); Serial.print(clock);
 }
