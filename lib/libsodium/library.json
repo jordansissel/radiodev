@@ -2,7 +2,7 @@
   "name": "libsodium",
   "version": "1.0",
   "build": {
-    "flags": "-I include -I include/sodium"
+    "flags": "-I include -I include/sodium -O2"
   },
   "dependencies": { 
     "name": "fakeposix",

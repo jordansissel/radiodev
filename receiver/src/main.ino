@@ -53,7 +53,7 @@ void y() {
   clock = micros();
   crypto_secretbox_easy(ciphertext, MESSAGE, MESSAGE_LEN, nonce, key);
   clock = micros() - clock;
-  Serial.print("crypto_secretbox_easy: "); Serial.print(clock);
+  Serial.print("crypto_secretbox_easy: "); Serial.println(clock);
 
   unsigned char decrypted[MESSAGE_LEN];
   clock = micros();
@@ -61,5 +61,5 @@ void y() {
     Serial.println("crypto_secretbox_open_easy FORGED OR CORRUPT");
   }
   clock = micros() - clock;
-  Serial.print("crypto_secretbox_easy: "); Serial.print(clock);
+  Serial.print("crypto_secretbox_easy: "); Serial.println(clock);
 }

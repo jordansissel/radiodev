@@ -12,12 +12,6 @@ RH_ASK driver(2000, 2, txpin, 3, false);
 static struct randombytes_implementation rng;
 
 void setup(){
-  rng.implementation_name = []() -> const char * { return "esp8266"; };
-  rng.random = []() -> uint32_t { return 0; };
-  rng.buf = [](void * const buf, const size_t size) { };
-  rng.stir = NULL;
-  rng.close = NULL;
-  rng.uniform = NULL;
 
   Serial.begin(9600);
   Serial.print("Setup complete.");
@@ -25,6 +19,12 @@ void setup(){
     Serial.println("init failed");
   }
   
+  rng.implementation_name = []() -> const char * { return "esp8266"; };
+  rng.random = []() -> uint32_t { return 0; };
+  rng.buf = [](void * const buf, const size_t size) { };
+  rng.stir = NULL;
+  rng.close = NULL;
+  rng.uniform = NULL;
   int rc = randombytes_set_implementation(&rng);
   Serial.print("RNG setup: ");
   Serial.println(rc);
