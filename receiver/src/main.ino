@@ -11,7 +11,7 @@ void setup() {
   //if (!driver.init())
   Serial.println("init failed");
   Serial.print("Setup complete.");
-  y();
+  //y();
   delay(1000);
 }
 
