@@ -4,23 +4,24 @@
 
 #define rxled 17
 #define rxpin 15
-RH_ASK driver(2000, rxpin, 1, 2);
+//RH_ASK driver(2000, rxpin, 1, 2);
 
 void setup() {
   Serial.begin(9600); // Debugging only
   //if (!driver.init())
   Serial.println("init failed");
   Serial.print("Setup complete.");
-}
-void loop() {
-  uint8_t buf[RH_ASK_MAX_MESSAGE_LEN];
-  uint8_t buflen = sizeof(buf);
-  if (driver.recv(buf, &buflen)) {
-    driver.printBuffer("Got:", buf, buflen);
-  }
-
   y();
   delay(1000);
+}
+
+void loop() {
+  delay(1000);
+  //uint8_t buf[RH_ASK_MAX_MESSAGE_LEN];
+  //uint8_t buflen = sizeof(buf);
+  //if (driver.recv(buf, &buflen)) {
+    //driver.printBuffer("Got:", buf, buflen);
+  //}
 }
 
 #define MESSAGE (const unsigned char *) "hello world. everything is on fire."
@@ -70,7 +71,7 @@ void y() {
 
   unsigned char nonce[crypto_secretbox_NONCEBYTES];
   unsigned char key[crypto_secretbox_KEYBYTES];
-  unsigned char ciphertext[CIPHERTEXT_LEN];
+  unsigned char ciphertext[ciphertext_len];
 
   randombytes_buf(nonce, sizeof nonce);
   randombytes_buf(key, sizeof key);
@@ -83,7 +84,7 @@ void y() {
 
   unsigned char decrypted[MESSAGE_LEN];
   start = micros();
-  if (crypto_secretbox_open_easy(decrypted, ciphertext, CIPHERTEXT_LEN, nonce, key) != 0) {
+  if (crypto_secretbox_open_easy(decrypted, ciphertext, ciphertext_len, nonce, key) != 0) {
     Serial.println("crypto_secretbox_open_easy FORGED OR CORRUPT");
   }
   Serial.print("crypto_secretbox_open_easy Duration: ");
