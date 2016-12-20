@@ -44,8 +44,8 @@ void loop(){
   delay(2000);
 }
 
-#define MESSAGE (const unsigned char *) "test"
-#define MESSAGE_LEN 4
+#define MESSAGE (const unsigned char *) "hello world. everything is on fire."
+#define MESSAGE_LEN 35
 #define CIPHERTEXT_LEN (crypto_box_MACBYTES + MESSAGE_LEN)
 void x() {
   unsigned long start;
