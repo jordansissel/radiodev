@@ -9,14 +9,14 @@
 void setup() {
   Serial.begin(9600); // Debugging only
   //if (!driver.init())
-  Serial.println("init failed");
-  Serial.print("Setup complete.");
+  Serial.println("Setup complete.");
   //y();
   delay(1000);
 }
 
 void loop() {
   delay(1000);
+  Serial.println("Hi.");
   //uint8_t buf[RH_ASK_MAX_MESSAGE_LEN];
   //uint8_t buflen = sizeof(buf);
   //if (driver.recv(buf, &buflen)) {
