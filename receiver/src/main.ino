@@ -10,8 +10,7 @@ void setup() {
   Serial.begin(9600); // Debugging only
   //if (!driver.init())
   Serial.println("Setup complete.");
-  //y();
-  delay(1000);
+  y();
 }
 
 void loop() {
