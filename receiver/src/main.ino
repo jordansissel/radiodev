@@ -49,16 +49,16 @@ void y() {
   randombytes_buf(key, sizeof key);
 
   start = micros();
-  //crypto_secretbox_easy(ciphertext, MESSAGE, MESSAGE_LEN, nonce, key);
+  crypto_secretbox_easy(ciphertext, MESSAGE, MESSAGE_LEN, nonce, key);
   Serial.print("crypto_secretbox_easy Duration: ");
   Serial.print(micros() - start);
   Serial.println("us");
 
   unsigned char decrypted[MESSAGE_LEN];
   start = micros();
-  //if (crypto_secretbox_open_easy(decrypted, ciphertext, CIPHERTEXT_LEN, nonce, key) != 0) {
-    //Serial.println("crypto_secretbox_open_easy FORGED OR CORRUPT");
-  //}
+  if (crypto_secretbox_open_easy(decrypted, ciphertext, CIPHERTEXT_LEN, nonce, key) != 0) {
+    Serial.println("crypto_secretbox_open_easy FORGED OR CORRUPT");
+  }
   Serial.print("crypto_secretbox_open_easy Duration: ");
   Serial.print(micros() - start);
   Serial.println("us");
