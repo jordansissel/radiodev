@@ -9,7 +9,15 @@
 
 RH_ASK driver(2000, 2, txpin, 3, false);
 
+static struct randombytes_implementation rng;
+
 void setup(){
+  rng.implementation_name = []() -> const char * { return "esp8266"; };
+  rng.random = []() -> uint32_t { return 0; };
+  rng.buf = [](void * const buf, const size_t size) { };
+  rng.stir = NULL;
+  rng.close = NULL;
+  rng.uniform = NULL;
 
   Serial.begin(9600);
   Serial.print("Setup complete.");
@@ -18,7 +26,8 @@ void setup(){
   }
   
   int rc = randombytes_set_implementation(&rng);
-  Serial.println("RNG setup", rc);
+  Serial.print("RNG setup: ");
+  Serial.println(rc);
 
   Serial.println("1");
   //KeyInstruction k(0x65);
@@ -72,13 +81,3 @@ void x() {
   }
   Serial.print("Decrypted text: "); Serial.write((const uint8_t*) decrypted, MESSAGE_LEN); Serial.println();
 }
-
-struct randombytes_implementation rng = {
-  .implementation_name = () const char * -> { return "esp8266" },
-  .random = () uint32_t -> { return 0; },
-  .buf = (void * const buf, const size_t size) void -> { },
-  .stir = NULL,
-  .close = NULL,
-  .uniform = NULL,
-};
-
