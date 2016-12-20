@@ -84,3 +84,30 @@ void x() {
   Serial.println("us");
   Serial.print("Decrypted text: "); Serial.write((const uint8_t*) decrypted, MESSAGE_LEN); Serial.println();
 }
+
+void y() {
+  unsigned int ciphertext_len = (crypto_secretbox_MACBYTES + MESSAGE_LEN);
+  unsigned long start;
+
+  unsigned char nonce[crypto_secretbox_NONCEBYTES];
+  unsigned char key[crypto_secretbox_KEYBYTES];
+  unsigned char ciphertext[CIPHERTEXT_LEN];
+
+  randombytes_buf(nonce, sizeof nonce);
+  randombytes_buf(key, sizeof key);
+
+  start = micros();
+  crypto_secretbox_easy(ciphertext, MESSAGE, MESSAGE_LEN, nonce, key);
+  Serial.print("crypto_secretbox_easy Duration: ");
+  Serial.print(micros() - start);
+  Serial.println("us");
+
+  unsigned char decrypted[MESSAGE_LEN];
+  start = micros();
+  if (crypto_secretbox_open_easy(decrypted, ciphertext, CIPHERTEXT_LEN, nonce, key) != 0) {
+    Serial.println("crypto_secretbox_open_easy FORGED OR CORRUPT");
+  }
+  Serial.print("crypto_secretbox_open_easy Duration: ");
+  Serial.print(micros() - start);
+  Serial.println("us");
+}
