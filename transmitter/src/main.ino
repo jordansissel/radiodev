@@ -35,7 +35,13 @@ void setup(){
   driver.send(buf, count);
   driver.waitPacketSent();
 
+  unsigned long start;
+
+  start = micros();
   x();
+  Serial.print("Duration: ");
+  Serial.print(micros() - start);
+  Serial.println("us");
 }
 
 void loop(){
