@@ -37,11 +37,7 @@ void setup(){
 
   unsigned long start;
 
-  start = micros();
   x();
-  Serial.print("Duration: ");
-  Serial.print(micros() - start);
-  Serial.println("us");
 }
 
 void loop(){
@@ -52,6 +48,7 @@ void loop(){
 #define MESSAGE_LEN 4
 #define CIPHERTEXT_LEN (crypto_box_MACBYTES + MESSAGE_LEN)
 void x() {
+  unsigned long start;
   unsigned char alice_publickey[crypto_box_PUBLICKEYBYTES];
   unsigned char alice_secretkey[crypto_box_SECRETKEYBYTES];
   crypto_box_keypair(alice_publickey, alice_secretkey);
@@ -65,17 +62,25 @@ void x() {
   randombytes_buf(nonce, sizeof nonce);
   Serial.print("Plain text: "); Serial.write((const uint8_t*) MESSAGE, MESSAGE_LEN); Serial.println();
 
+  start = micros();
   if (crypto_box_easy(ciphertext, MESSAGE, MESSAGE_LEN, nonce,
                       bob_publickey, alice_secretkey) != 0) {
-    /* error */
+    Serial.println("crypto_box_easy: ERROR!?");
   }
+  Serial.print("crypto_box_easy Duration: ");
+  Serial.print(micros() - start);
+  Serial.println("us");
 
   Serial.print("Ciphertext : "); Serial.write((const uint8_t*) ciphertext, CIPHERTEXT_LEN); Serial.println();
 
   unsigned char decrypted[MESSAGE_LEN];
+  start = micros();
   if (crypto_box_open_easy(decrypted, ciphertext, CIPHERTEXT_LEN, nonce,
                            alice_publickey, bob_secretkey) != 0) {
-    /* message for Bob pretending to be from Alice has been forged! */
+    Serial.println("crypto_box_open_easy FORGERY OR CORRUPTION");
   }
+  Serial.print("crypto_box_open_easy Duration: ");
+  Serial.print(micros() - start);
+  Serial.println("us");
   Serial.print("Decrypted text: "); Serial.write((const uint8_t*) decrypted, MESSAGE_LEN); Serial.println();
 }
