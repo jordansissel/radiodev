@@ -7,7 +7,7 @@ extern "C" {
     return 0;
   }
 
-  int open(const char *pathname, int flags) {
+  int open(const char *pathname, int flags, ...) {
     Serial.print("open(");
     Serial.print(pathname),
     Serial.println("");
