@@ -18,6 +18,7 @@ extern "C" {
     Serial.print("fstat(");
     Serial.print(fd);
     Serial.println(")");
+    buf->st_mode = 0444;
     return 0;
   }
 

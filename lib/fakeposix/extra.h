@@ -18,4 +18,5 @@ struct timeval {
 
 extern int close(int fd);
 extern int open(const char *pathname, int flags, ...);
+
 #endif /* _EXTRA_H_ */
