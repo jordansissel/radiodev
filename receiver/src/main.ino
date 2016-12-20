@@ -10,7 +10,7 @@ void setup() {
   Serial.begin(9600); // Debugging only
   //if (!driver.init())
   Serial.println("Setup complete.");
-  y();
+  //y();
 }
 
 void loop() {
