@@ -6,26 +6,37 @@
 #define rxpin 15
 //RH_ASK driver(2000, rxpin, 1, 2);
 
+static struct randombytes_implementation rng;
+
 void setup() {
   Serial.begin(9600); // Debugging only
   //if (!driver.init())
+
+  rng.implementation_name = []() -> const char * { return "esp8266"; };
+  rng.random = []() -> uint32_t { return 0; };
+  rng.buf = [](void * const buf, const size_t size) { };
+  rng.stir = NULL;
+  rng.close = NULL;
+  rng.uniform = NULL;
+  int rc = randombytes_set_implementation(&rng);
+
   Serial.println("Setup complete.");
 }
 
 void loop() {
+  delay(5000);
   Serial.println("Hi.");
   //uint8_t buf[RH_ASK_MAX_MESSAGE_LEN];
   //uint8_t buflen = sizeof(buf);
   //if (driver.recv(buf, &buflen)) {
     //driver.printBuffer("Got:", buf, buflen);
   //}
-  delay(5000);
   y();
-  delay(5000);
+  delay(1000);
 }
 
-#define MESSAGE (const unsigned char *) "hello world. everything is on fire."
-#define MESSAGE_LEN 35
+#define MESSAGE (const unsigned char *) "hello world"
+#define MESSAGE_LEN 11
 #define CIPHERTEXT_LEN (crypto_secretbox_MACBYTES + MESSAGE_LEN)
 void y() {
   unsigned long start;
@@ -38,16 +49,16 @@ void y() {
   randombytes_buf(key, sizeof key);
 
   start = micros();
-  crypto_secretbox_easy(ciphertext, MESSAGE, MESSAGE_LEN, nonce, key);
+  //crypto_secretbox_easy(ciphertext, MESSAGE, MESSAGE_LEN, nonce, key);
   Serial.print("crypto_secretbox_easy Duration: ");
   Serial.print(micros() - start);
   Serial.println("us");
 
   unsigned char decrypted[MESSAGE_LEN];
   start = micros();
-  if (crypto_secretbox_open_easy(decrypted, ciphertext, CIPHERTEXT_LEN, nonce, key) != 0) {
-    Serial.println("crypto_secretbox_open_easy FORGED OR CORRUPT");
-  }
+  //if (crypto_secretbox_open_easy(decrypted, ciphertext, CIPHERTEXT_LEN, nonce, key) != 0) {
+    //Serial.println("crypto_secretbox_open_easy FORGED OR CORRUPT");
+  //}
   Serial.print("crypto_secretbox_open_easy Duration: ");
   Serial.print(micros() - start);
   Serial.println("us");
